@@ -1,69 +1,115 @@
-# CodeIgniter 4 Application Starter
+Open the project’s README.md and replace the default CodeIgniter text with:
 
-## What is CodeIgniter?
+# CodeIgniter POS Application
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+A basic Point-of-Sale application developed with CodeIgniter 4. It demonstrates MVC architecture, routing, database configuration, Models, Query Builder, and MySQL data retrieval.
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+## Features
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+- Landing page
+- About page
+- Customer Accounts page
+- User Accounts page
+- MySQL database integration
+- Customer and user records retrieved through CodeIgniter Models
+- Navigation between all four pages
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+## Requirements
 
-## Installation & updates
+- PHP 8.2 or newer
+- Composer
+- MySQL or MariaDB
+- Required PHP extensions:
+  - intl
+  - mbstring
+  - mysqli
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+## Local Setup
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+1. Clone the repository:
 
-## Setup
+   ```bash
+   git clone YOUR_GITHUB_REPOSITORY_URL
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+Open the project folder:
 
-## Important Change with index.php
+cd YOUR_PROJECT_FOLDER
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+Install the Composer dependencies:
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+composer install
+Copy the env file and rename the copy to .env.
 
-**Please** read the user guide for a better explanation of how CI4 works!
+Create a MySQL database named:
 
-## Repository Management
+pos_db
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+Import the database file:
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+database/pos_db.sql
 
-## Server Requirements
+Configure the database connection in .env:
 
-PHP version 8.2 or higher is required, with the following extensions installed:
+database.default.hostname = localhost
+database.default.database = pos_db
+database.default.username = root
+database.default.password =
+database.default.DBDriver = MySQLi
+database.default.port = 3306
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+Start the application:
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - The end of life date for PHP 8.1 was December 31, 2025.
-> - If you are still using below PHP 8.2, you should upgrade immediately.
-> - The end of life date for PHP 8.2 will be December 31, 2026.
+php spark serve
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+Open:
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+http://localhost:8080/
+Application Routes
+/ - Landing page
+/about - About page
+/customers - Customer Accounts page
+/users - User Accounts page
+Database Tables
+Customers
+id
+full_name
+email
+phone
+created_at
+Users
+id
+username
+full_name
+role
+created_at
+Technologies Used
+CodeIgniter 4
+PHP
+MySQL
+HTML
+Composer
+Docker
+Render
+Aiven
+Hosted Application
+
+Add your Render URL here:
+
+YOUR_RENDER_APPLICATION_URL
+
+Replace:
+
+```text
+YOUR_GITHUB_REPOSITORY_URL
+YOUR_PROJECT_FOLDER
+YOUR_RENDER_APPLICATION_URL
+
+with your actual information.
+
+Then save, commit, and push:
+
+git add README.md
+git commit -m "Update project setup documentation"
+git push
+
+Render may redeploy again because the repository changed, although this README-only update does not change the application.
