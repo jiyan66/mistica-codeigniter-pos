@@ -34,6 +34,7 @@
                 <th>Username</th>
                 <th>Full Name</th>
                 <th>Role</th>
+                <th>Actions</th>
             </tr>
         </thead>
 
@@ -43,6 +44,11 @@
                     <td><?= esc($user['username']) ?></td>
                     <td><?= esc($user['full_name']) ?></td>
                     <td><?= esc($user['role']) ?></td>
+                    <td>
+                        <a href="<?= site_url('users/' . $user['id'] . '/edit') ?>">
+                            Edit
+                        </a>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
