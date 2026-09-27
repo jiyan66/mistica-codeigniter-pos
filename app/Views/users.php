@@ -20,6 +20,14 @@
 
     <h1>User Accounts</h1>
 
+    <?php if (session()->getFlashdata('success')): ?>
+        <p><?= esc(session()->getFlashdata('success')) ?></p>
+    <?php endif; ?>
+
+    <p>
+        <a href="<?= site_url('users/new') ?>">Add New User</a>
+    </p>
+
     <table border="1" cellpadding="8">
         <thead>
             <tr>
