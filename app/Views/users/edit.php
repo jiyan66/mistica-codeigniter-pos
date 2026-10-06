@@ -14,12 +14,7 @@ $errors = $errors ?? [];
 </head>
 <body>
 
-    <nav>
-        <a href="<?= base_url('/') ?>">Home</a>
-        <a href="<?= base_url('about') ?>">About</a>
-        <a href="<?= base_url('customers') ?>">Customers</a>
-        <a href="<?= base_url('users') ?>">Users</a>
-    </nav>
+    <?= view('partials/nav') ?>
 
     <h1>Edit User</h1>
 
@@ -31,16 +26,16 @@ $errors = $errors ?? [];
         </ul>
     <?php endif; ?>
 
-    <?php if (! empty($user['avatar'])): ?>
-        <p>Current Avatar:</p>
+    <p>Current Avatar:</p>
 
-        <img
-            src="<?= base_url('uploads/avatars/' . $user['avatar']) ?>"
-            alt="<?= esc($user['full_name']) ?> avatar"
-            width="100"
-            height="100"
-        >
-    <?php endif; ?>
+    <img
+        src="<?= ! empty($user['avatar'])
+            ? base_url('uploads/avatars/' . $user['avatar'])
+            : base_url('images/default-avatar.svg') ?>"
+        alt="<?= esc($user['full_name']) ?> avatar"
+        width="100"
+        height="100"
+    >
 
     <form
         action="<?= site_url('users/' . $user['id']) ?>"
@@ -90,6 +85,28 @@ $errors = $errors ?? [];
                 id="avatar"
                 name="avatar"
                 accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+            >
+        </div>
+
+        <div>
+            <label for="password">New Password (leave blank to keep the current password)</label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                minlength="8"
+                autocomplete="new-password"
+            >
+        </div>
+
+        <div>
+            <label for="password_confirm">Confirm New Password</label>
+            <input
+                type="password"
+                id="password_confirm"
+                name="password_confirm"
+                minlength="8"
+                autocomplete="new-password"
             >
         </div>
 

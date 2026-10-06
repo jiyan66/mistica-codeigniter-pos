@@ -7,18 +7,14 @@
 </head>
 <body>
 
-    <nav>
-        <a href="<?= base_url('/') ?>">Home</a>
-        <a href="<?= base_url('about') ?>">About</a>
-        <a href="<?= base_url('customers') ?>">Customers</a>
-        <a href="<?= base_url('users') ?>">Users</a>
-    </nav>
+    <?= view('partials/nav') ?>
 
     <h1>About Our POS System</h1>
 
     <p>
         This is a basic Point-of-Sale application created using CodeIgniter 4.
-        It demonstrates routes, controllers, views, and static PHP arrays.
+        It demonstrates MVC, database-backed forms, validation, file uploads,
+        sessions, password hashing, and route protection with filters.
     </p>
 
 </body>

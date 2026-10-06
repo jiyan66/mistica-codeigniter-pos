@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\UserModel;
 
-class Users Extends BaseController
+class Users extends BaseController
 {
     public function index()
     {
@@ -23,15 +23,19 @@ class Users Extends BaseController
     public function create()
     {
         $user = [
-            'username'  => trim((string) $this->request->getPost('username')),
-            'full_name' => trim((string) $this->request->getPost('full_name')),
-            'role'      => trim((string) $this->request->getPost('role')),
+            'username'         => trim((string) $this->request->getPost('username')),
+            'full_name'        => trim((string) $this->request->getPost('full_name')),
+            'role'             => trim((string) $this->request->getPost('role')),
+            'password'         => (string) $this->request->getPost('password'),
+            'password_confirm' => (string) $this->request->getPost('password_confirm'),
         ];
 
         $rules = [
             'username'  => 'required|max_length[50]|is_unique[users.username]',
             'full_name' => 'required|max_length[100]',
             'role'      => 'required|in_list[Administrator,Cashier,Manager,Staff]',
+            'password'  => 'required|min_length[8]|max_length[255]',
+            'password_confirm' => 'required|matches[password]',
         ];
 
         if (! $this->validateData($user, $rules)) {
@@ -47,6 +51,7 @@ class Users Extends BaseController
             'username'   => $user['username'],
             'full_name'  => $user['full_name'],
             'role'       => $user['role'],
+            'password'   => password_hash($user['password'], PASSWORD_DEFAULT),
             'created_at' => date('Y-m-d H:i:s'),
         ]);
 
@@ -91,6 +96,9 @@ class Users Extends BaseController
             'role'      => trim((string) $this->request->getPost('role')),
         ];
 
+        $newPassword = (string) $this->request->getPost('password');
+        $passwordConfirmation = (string) $this->request->getPost('password_confirm');
+
         $textRules = [
             'username' => [
                 'rules' => 'required|max_length[50]|is_unique[users.username,id,' . $id . ']',
@@ -107,6 +115,25 @@ class Users Extends BaseController
                 'user'   => array_merge($existingUser, $user),
                 'errors' => $this->validator->getErrors(),
             ]);
+        }
+
+        if ($newPassword !== '' || $passwordConfirmation !== '') {
+            $passwordData = [
+                'password'         => $newPassword,
+                'password_confirm' => $passwordConfirmation,
+            ];
+
+            $passwordRules = [
+                'password'         => 'required|min_length[8]|max_length[255]',
+                'password_confirm' => 'required|matches[password]',
+            ];
+
+            if (! $this->validateData($passwordData, $passwordRules)) {
+                return view('users/edit', [
+                    'user'   => array_merge($existingUser, $user),
+                    'errors' => $this->validator->getErrors(),
+                ]);
+            }
         }
 
         $avatar = $this->request->getFile('avatar');
@@ -140,6 +167,10 @@ class Users Extends BaseController
             'full_name' => $user['full_name'],
             'role'      => $user['role'],
         ];
+
+        if ($newPassword !== '') {
+            $updateData['password'] = password_hash($newPassword, PASSWORD_DEFAULT);
+        }
 
         $newAvatarPath = null;
 
@@ -184,4 +215,4 @@ class Users Extends BaseController
             ->to('/users')
             ->with('success', 'User updated successfully.');
     }
-    }
+}

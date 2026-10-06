@@ -1,115 +1,119 @@
-Open the project’s README.md and replace the default CodeIgniter text with:
-
 # CodeIgniter POS Application
 
-A basic Point-of-Sale application developed with CodeIgniter 4. It demonstrates MVC architecture, routing, database configuration, Models, Query Builder, and MySQL data retrieval.
+A database-backed Point-of-Sale foundation built with CodeIgniter 4. The application manages customer and staff user accounts, validates form submissions, supports avatar uploads, and protects management pages with session-based authentication.
 
 ## Features
 
-- Landing page
-- About page
-- Customer Accounts page
-- User Accounts page
-- MySQL database integration
-- Customer and user records retrieved through CodeIgniter Models
-- Navigation between all four pages
+- Public landing and about pages
+- Customer list, creation, and editing
+- User list, creation, and editing
+- JPG and PNG avatar uploads with 300 by 300 image processing
+- Password hashing with `password_hash()`
+- Password verification with `password_verify()`
+- Session-based login and logout
+- Authentication Filter protecting all customer and user routes
+- CSRF protection for POST forms
+- MySQL or MariaDB database integration
 
 ## Requirements
 
 - PHP 8.2 or newer
 - Composer
 - MySQL or MariaDB
-- Required PHP extensions:
-  - intl
-  - mbstring
-  - mysqli
+- PHP extensions: `intl`, `mbstring`, `mysqli`, and `gd`
 
 ## Local Setup
 
-1. Clone the repository:
+1. Clone or download the project.
+2. Open a terminal in the project directory.
+3. Install dependencies:
 
    ```bash
-   git clone YOUR_GITHUB_REPOSITORY_URL
+   composer install
+   ```
 
-Open the project folder:
+4. Copy `.env.example` to `.env`.
+5. Create a database named `pos_db`.
+6. For a fresh database, import `database/pos_db.sql` using phpMyAdmin or the MySQL command line.
+7. If upgrading an existing TFA3 database instead, import `database/tfa4_upgrade.sql` once. This preserves the existing records while adding initial password hashes.
+8. Update the database values in `.env` if your MySQL account differs from the XAMPP defaults.
+9. Start the application:
 
-cd YOUR_PROJECT_FOLDER
+   ```bash
+   php spark serve
+   ```
 
-Install the Composer dependencies:
+10. Open `http://localhost:8080/`.
 
-composer install
-Copy the env file and rename the copy to .env.
+The included CodeIgniter migration provides an alternative upgrade path:
 
-Create a MySQL database named:
+```bash
+php spark migrate
+```
 
-pos_db
+## Demonstration Login
 
-Import the database file:
+The database export contains development accounts. For local assessment testing, use:
 
-database/pos_db.sql
+- Username: `admin01`
+- Password: `Password123!`
 
-Configure the database connection in .env:
+All existing users in the included development database use the same initial password. Change these credentials before using the project outside an assessment environment.
 
-database.default.hostname = localhost
-database.default.database = pos_db
-database.default.username = root
-database.default.password =
-database.default.DBDriver = MySQLi
-database.default.port = 3306
+## Application Routes
 
-Start the application:
+Public routes:
 
-php spark serve
+- `GET /` - Landing page
+- `GET /about` - About page
+- `GET /login` - Login form
+- `POST /login` - Login verification
 
-Open:
+Authenticated routes:
 
-http://localhost:8080/
-Application Routes
-/ - Landing page
-/about - About page
-/customers - Customer Accounts page
-/users - User Accounts page
-Database Tables
-Customers
-id
-full_name
-email
-phone
-created_at
-Users
-id
-username
-full_name
-role
-created_at
-Technologies Used
-CodeIgniter 4
-PHP
-MySQL
-HTML
-Composer
-Docker
-Render
-Aiven
-Hosted Application
+- `GET /customers` - Customer list
+- `GET /customers/new` - New customer form
+- `POST /customers` - Create customer
+- `GET /customers/{id}/edit` - Edit customer form
+- `POST /customers/{id}` - Update customer
+- `GET /users` - User list
+- `GET /users/new` - New user form
+- `POST /users` - Create user
+- `GET /users/{id}/edit` - Edit user form
+- `POST /users/{id}` - Update user
+- `POST /logout` - Destroy the session and return to login
 
-Add your Render URL here:
+## Database Tables
 
-YOUR_RENDER_APPLICATION_URL
+### customers
 
-Replace:
+- `id` primary key
+- `full_name`
+- `email`
+- `phone`
+- `created_at`
 
-```text
-YOUR_GITHUB_REPOSITORY_URL
-YOUR_PROJECT_FOLDER
-YOUR_RENDER_APPLICATION_URL
+### users
 
-with your actual information.
+- `id` primary key
+- `username` unique
+- `full_name`
+- `role`
+- `avatar`
+- `password`
+- `created_at`
 
-Then save, commit, and push:
+Only password hashes are stored in the database. Plaintext passwords are never saved.
 
-git add README.md
-git commit -m "Update project setup documentation"
-git push
+## Deployment
 
-Render may redeploy again because the repository changed, although this README-only update does not change the application.
+The included Dockerfile configures Apache, Composer, MySQLi, and GD. Configure the production database and base URL through your hosting provider's environment variables. Do not commit `.env`.
+
+Avatar files uploaded at runtime may be removed when deployed to a hosting service with an ephemeral filesystem. Use persistent storage or an external object-storage service if uploaded avatars must survive redeployments.
+
+## Submission
+
+Submit:
+
+- The GitHub repository URL containing the raw project and `database/pos_db.sql`
+- The URL of the hosted working application

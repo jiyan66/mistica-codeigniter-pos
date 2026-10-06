@@ -12,12 +12,7 @@ $user   = $user ?? [];
 </head>
 <body>
 
-    <nav>
-        <a href="<?= base_url('/') ?>">Home</a>
-        <a href="<?= base_url('about') ?>">About</a>
-        <a href="<?= base_url('customers') ?>">Customers</a>
-        <a href="<?= base_url('users') ?>">Users</a>
-    </nav>
+    <?= view('partials/nav') ?>
 
     <h1>Add New User</h1>
 
@@ -66,6 +61,30 @@ $user   = $user ?? [];
                     </option>
                 <?php endforeach; ?>
             </select>
+        </div>
+
+        <div>
+            <label for="password">Password</label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                minlength="8"
+                autocomplete="new-password"
+                required
+            >
+        </div>
+
+        <div>
+            <label for="password_confirm">Confirm Password</label>
+            <input
+                type="password"
+                id="password_confirm"
+                name="password_confirm"
+                minlength="8"
+                autocomplete="new-password"
+                required
+            >
         </div>
 
         <button type="submit">Save User</button>

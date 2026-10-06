@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300" role="img" aria-labelledby="title description">
+  <title id="title">Default user avatar</title>
+  <desc id="description">A simple person silhouette used when no avatar is uploaded.</desc>
+  <rect width="300" height="300" rx="24" fill="#e5e7eb"/>
+  <circle cx="150" cy="105" r="58" fill="#6b7280"/>
+  <path d="M55 270c8-65 45-100 95-100s87 35 95 100" fill="#6b7280"/>
+</svg>

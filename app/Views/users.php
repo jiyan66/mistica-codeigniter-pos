@@ -11,12 +11,7 @@
 </head>
 <body>
 
-    <nav>
-        <a href="<?= base_url('/') ?>">Home</a>
-        <a href="<?= base_url('about') ?>">About</a>
-        <a href="<?= base_url('customers') ?>">Customers</a>
-        <a href="<?= base_url('users') ?>">Users</a>
-    </nav>
+    <?= view('partials/nav') ?>
 
     <h1>User Accounts</h1>
 
@@ -31,6 +26,7 @@
     <table border="1" cellpadding="8">
         <thead>
             <tr>
+                <th>Avatar</th>
                 <th>Username</th>
                 <th>Full Name</th>
                 <th>Role</th>
@@ -41,6 +37,16 @@
         <tbody>
             <?php foreach ($users as $user): ?>
                 <tr>
+                    <td>
+                        <img
+                            src="<?= ! empty($user['avatar'])
+                                ? base_url('uploads/avatars/' . $user['avatar'])
+                                : base_url('images/default-avatar.svg') ?>"
+                            alt="<?= esc($user['full_name']) ?> avatar"
+                            width="60"
+                            height="60"
+                        >
+                    </td>
                     <td><?= esc($user['username']) ?></td>
                     <td><?= esc($user['full_name']) ?></td>
                     <td><?= esc($user['role']) ?></td>

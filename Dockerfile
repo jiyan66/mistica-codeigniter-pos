@@ -2,7 +2,9 @@ FROM php:8.3-apache
 
 RUN apt-get update \
     && apt-get install -y git unzip libicu-dev libonig-dev libzip-dev \
-    && docker-php-ext-install intl mbstring mysqli \
+        libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j"$(nproc)" gd intl mbstring mysqli \
     && a2enmod rewrite \
     && rm -rf /var/lib/apt/lists/*
 
@@ -24,7 +26,8 @@ WORKDIR /var/www/html
 COPY . .
 
 RUN composer install --no-dev --optimize-autoloader \
-    && chown -R www-data:www-data writable
+    && mkdir -p public/uploads/avatars \
+    && chown -R www-data:www-data writable public/uploads/avatars
 
 EXPOSE 80
 
